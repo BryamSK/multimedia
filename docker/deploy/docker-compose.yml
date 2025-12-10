@@ -6,8 +6,8 @@ services:
     container_name: plex
     network_mode: host
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1001
+      - PGID=1001
       - VERSION=docker
       - PLEX_CLAIM= #optional
     volumes:
@@ -15,26 +15,3 @@ services:
       - /mnt/docker/series:/series
       - /mnt/docker/peliculas/:/peliculas
     restart: unless-stopped
-
-#---------------------------------------------------
-#transmission torrent download
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
-    environment:
-      - PUID=0
-      - PGID=0
-      - TZ=America/Bogota
-      - USER=admin
-      - PASS=23895634
-    volumes:
-      - ./transmission/config:/config
-      - /mnt/docker/downloads:/downloads
-      - /mnt/docker/downloads/watch:/watch
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
-    restart: unless-stopped
-
-#---------------------------------------------------

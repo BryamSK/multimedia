@@ -1,0 +1,40 @@
+services:
+#---------------------------------------------------
+#Plex Video and Media
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=0
+      - PGID=0
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - ./plex/config/:/config
+      - /mnt/docker/series:/series
+      - /mnt/docker/peliculas/:/peliculas
+    restart: unless-stopped
+
+#---------------------------------------------------
+#transmission torrent download
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Bogota
+      - USER=admin
+      - PASS=23895634
+    volumes:
+      - ./transmission/config:/config
+      - /mnt/docker/downloads:/downloads
+      - /mnt/docker/downloads/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+
+#---------------------------------------------------
